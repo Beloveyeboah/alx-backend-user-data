@@ -11,8 +11,7 @@ from typing import TypeVar
 class BasicAuth(Auth):
     """Class for Basic Authentication"""
 
-    def extract_base64_authorization_header(self,
-                                            authorization_header: str) -> str:
+    def extract_base64_authorization_header(self, authorization_header: str) -> str:
         """
         Extracts the Base64 part of the Authorization
         header for Basic Authentication.
@@ -29,8 +28,7 @@ class BasicAuth(Auth):
 
         return authorization_header[len("Basic "):]
 
-    def decode_base64_authorization_header(self,
-                                           base64_authorization_header:
+    def decode_base64_authorization_header(self, base64_authorization_header:
                                            str) -> str:
 
         if base64_authorization_header is None:
