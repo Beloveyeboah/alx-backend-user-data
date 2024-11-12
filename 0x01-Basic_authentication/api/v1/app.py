@@ -18,8 +18,8 @@ auth = None
 AUTH_TYPE = os.getenv("AUTH_TYPE", None)
 if AUTH_TYPE:
     if AUTH_TYPE == "auth":
-        from api.v1.auth.auth import Auth
-        auth = Auth()
+        from api.v1.auth.auth import BasicAuth
+        auth = BasicAuth()
 
 
 @app.before_request
