@@ -10,24 +10,33 @@ from typing import List, TypeVar
 class Auth:
     """Template class for all authentication systems"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """ Determines if authentication is required
-        :param path: string path to be checked
-        :param excluded_paths: list of paths that do
-        not require authentication
-        return: True if authentication is required,
-        False otherwise """
+        """_summary_
+
+        Args:
+                path (str): _description_
+                excluded_paths (List[str]): _description_
+
+        Returns:
+                bool: _description_
+        """
         if path is None:
-            return
-        True if not excluded_paths:
             return True
-        if not path.endswith('/'):
-            path += '/'
+
+        if excluded_paths is None or excluded_paths == []:
+            return True
+
+        if path in excluded_paths:
+            return False
+
         for excluded_path in excluded_paths:
-            if excluded_path.endswith('*'):
+            if excluded_path.startswith(path):
+                return False
+            elif path.startswith(excluded_path):
+                return False
+            elif excluded_path[-1] == "*":
                 if path.startswith(excluded_path[:-1]):
                     return False
-                elif excluded_path.endswith('/') and path == excluded_path:
-                    return False
+
         return True
 
     def authorization_header(self, request=None) -> str:
