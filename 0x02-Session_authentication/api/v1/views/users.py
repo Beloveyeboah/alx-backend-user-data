@@ -22,7 +22,7 @@ def view_one_user(user_id: str = None) -> str:
     Path parameter:
       - User ID
     Return:
-      - User object JSON represented
+      - User object JSON represen ted
       - 404 if the User ID doesn't exist
     """
     if user_id is None:
