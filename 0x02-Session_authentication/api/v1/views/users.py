@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """ Module of Users views
 """
@@ -22,7 +23,7 @@ def view_one_user(user_id: str = None) -> str:
     Path parameter:
       - User ID
     Return:
-      - User object JSON represen ted
+      - User object JSON represented
       - 404 if the User ID doesn't exist
     """
     if user_id is None:
