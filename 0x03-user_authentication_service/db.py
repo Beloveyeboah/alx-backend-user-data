@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DB module
+"""DB module solution
 """
 
 from sqlalchemy import create_engine
