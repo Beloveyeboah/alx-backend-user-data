@@ -45,25 +45,22 @@ class DB:
         """ search for a user in the database
         """
 
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            if not user:
-                raise NoResultFound
-            return user
-        except NoResultFound:
-            raise NoResultFound("No user found with the given criteria")
-        except InvalidRequestError:
-            raise InvalidRequestError("Invalid request parameters")
+        if not kwargs:
+            raise InvalidRequestError
+
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
+            raise NoResultFound
+        return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """Update a user's attributes"""
 
-        try:
-            user = self.find_user_by(id=user_id)
-        except NoResultFound:
-            raise ValueError("User not found")
+        user = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
             if not hasattr(user, key):
-                raise ValueError(f"Invalid attribute: {key}")
+                raise ValueError
             setattr(user, key, value)
+
         self._session.commit()
+        return None
