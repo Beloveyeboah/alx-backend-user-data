@@ -9,20 +9,29 @@ BASE_URL = "http://0.0.0.0:5000"
 
 def register_user(email: str, password: str) -> None:
     """Register a new user"""
-    response = requests.post(f"{BASE_URL}/users", data={"email": email, "password": password})
+    response = requests.post(
+        f"{BASE_URL}/users",
+        data={"email": email, "password": password}
+    )
     assert response.status_code == 200
     assert response.json() == {"email": email, "message": "user created"}
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
     """Log in with wrong password"""
-    response = requests.post(f"{BASE_URL}/sessions", data={"email": email, "password": password})
+    response = requests.post(
+        f"{BASE_URL}/sessions",
+        data={"email": email, "password": password}
+    )
     assert response.status_code == 401
 
 
 def log_in(email: str, password: str) -> str:
     """Log in with correct credentials"""
-    response = requests.post(f"{BASE_URL}/sessions", data={"email": email, "password": password})
+    response = requests.post(
+        f"{BASE_URL}/sessions",
+        data={"email": email, "password": password}
+    )
     assert response.status_code == 200
     session_id = response.cookies.get("session_id")
     assert session_id is not None
@@ -37,20 +46,29 @@ def profile_unlogged() -> None:
 
 def profile_logged(session_id: str) -> None:
     """Get profile when logged in"""
-    response = requests.get(f"{BASE_URL}/profile", cookies={"session_id": session_id})
+    response = requests.get(
+        f"{BASE_URL}/profile",
+        cookies={"session_id": session_id}
+    )
     assert response.status_code == 200
     assert "email" in response.json()
 
 
 def log_out(session_id: str) -> None:
     """Log out"""
-    response = requests.delete(f"{BASE_URL}/sessions", cookies={"session_id": session_id})
+    response = requests.delete(
+        f"{BASE_URL}/sessions",
+        cookies={"session_id": session_id}
+    )
     assert response.status_code == 200
 
 
 def reset_password_token(email: str) -> str:
     """Request reset password token"""
-    response = requests.post(f"{BASE_URL}/reset_password", data={"email": email})
+    response = requests.post(
+        f"{BASE_URL}/reset_password",
+        data={"email": email}
+    )
     assert response.status_code == 200
     reset_token = response.json().get("reset_token")
     assert reset_token is not None
@@ -59,7 +77,14 @@ def reset_password_token(email: str) -> str:
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
     """Update password"""
-    response = requests.put(f"{BASE_URL}/reset_password", data={"email": email, "reset_token": reset_token, "new_password": new_password})
+    response = requests.put(
+        f"{BASE_URL}/reset_password",
+        data={
+            "email": email,
+            "reset_token": reset_token,
+            "new_password": new_password
+        }
+    )
     assert response.status_code == 200
     assert response.json() == {"email": email, "message": "Password updated"}
 
