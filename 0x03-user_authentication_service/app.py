@@ -1,35 +1,37 @@
 #!/usr/bin/env python3
-"""
-authentification
+"""the flask app
 """
 
-from flask import Flask, request, jsonify
+
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
-app = Flask(__name__)
 AUTH = Auth()
+
+app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
 def index() -> str:
-    """Return a JSON payload with a welcome message"""
+    """_summary_
+    """
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route('/users', methods=['POST'])
 def users() -> str:
-    """Endpoint to register a user"""
+    """_summary_
+    """
     email = request.form.get('email')
     password = request.form.get('password')
 
-    if not email or not password:
-        return jsonify({"message": "email and password required"}), 400
-
+    # regsiter user if user does not exist
     try:
         user = AUTH.register_user(email, password)
         return jsonify({"email": user.email, "message": "user created"})
-    except ValueError:
+    except Exception:
         return jsonify({"message": "email already registered"}), 400
+
 
 @app.route('/sessions', methods=['POST'])
 def login() -> str:
