@@ -55,7 +55,7 @@ class Auth:
         except NoResultFound:
             # add user to database
             hashed_password = self._hash_password(password).decode('utf-8')
-            return self._db.add_user(email, _hash_password(password))
+            return self._db.add_user(email, hash_password)
 
         else:
             # if user already exists, throw error
